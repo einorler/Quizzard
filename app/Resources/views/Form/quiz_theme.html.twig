@@ -1,0 +1,152 @@
+{%- block form_start -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    <form class="form-horizontal" name="{{ name }}" method="{{ form_method|lower }}"{% if action != '' %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start -%}
+
+{% block _quiz_title_row %}
+    <div class="row">
+        {% if errors|length > 0  %}
+            {% set error_text = '' %}
+
+            {% for error in errors %}
+                {% set error_text = error_text ~ error.message %}
+            {% endfor %}
+        {% endif %}
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group {% if errors|length > 0  %} has-danger{% endif %}">
+                {% if errors|length > 0  %}
+                    <label class="form-control-label" for="title">{{ error_text }}</label>
+                {% endif %}
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-header"></i></div>
+                    <input type="text" id="title" {{ block('widget_attributes') }} name="quiz[title]" class="form-control" placeholder="Title" {% if value is not empty %}value="{{ value }}" {% endif %}>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+{% endblock %}
+
+{% block _quiz_categories_row %}
+    <div class="row">
+        {% if errors|length > 0  %}
+            {% set error_text = '' %}
+
+            {% for error in errors %}
+                {% set error_text = error_text ~ error.message %}
+            {% endfor %}
+        {% endif %}
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group {% if errors|length > 0  %} has-danger{% endif %}">
+                {% if errors|length > 0  %}
+                    <label class="form-control-label" for="categories">{{ error_text }}</label>
+                {% endif %}
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-list"></i></div>
+                    <select multiple id="categories" {{ block('widget_attributes') }} name="quiz[categories]" class="form-control">
+                        {{ block('category_choice_widget_options') }}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+{% endblock %}
+
+{% block _quiz_submit_widget %}
+    <button type="submit" class="btn btn-success" name="quiz[submit]"><i class="fa fa-sign-in"></i> Submit</button>
+{% endblock %}
+
+{% block _quiz_question_block_entry_widget %}
+    <div class="row" style="padding-bottom: 1rem; border-bottom: .05rem solid #e5e5e5; margin-bottom: 1rem">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-question-circle"></i></div>
+                    {{ form_widget(form.text) }}
+                    <div class="input-group-addon btn-danger remove-question" style="width: 2.6rem"><i class="fa fa-remove"></i></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="column col-md-3">
+                        {{ form_label(form.answers) }}
+                    </div>
+                    <div class="column col-md-9">
+                        {{ form_widget(form.answers) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+{% endblock %}
+
+{% block _quiz_question_block_entry_text_widget %}
+    {{ block('textfield_simplifier_widget') }}
+{% endblock %}
+
+{% block _quiz_question_block_entry_answers_entry_text_widget %}
+    {{ block('textfield_simplifier_widget') }}
+{% endblock %}
+
+{% block textfield_simplifier_widget %}
+    <input type="text" {{ block('widget_attributes') }} class="form-control" placeholder="{{ label }}" {% if value is not empty %}value="{{ value }}" {% endif %}>
+{% endblock %}
+
+{% block _quiz_question_block_entry_answers_entry_widget %}
+    {% if errors|length > 0  %}
+        {% set error_text = '' %}
+
+        {% for error in errors %}
+            {% set error_text = error_text ~ error.message %}
+        {% endfor %}
+    {% endif %}
+    <div class="form-group {% if errors|length > 0  %}has-danger{% endif %}">
+        {% if errors|length > 0  %}
+            <label class="form-control-label" for="categories">{{ error_text }}</label>
+        {% endif %}
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem">
+                {{ form_widget(form.correct) }}
+            </div>
+            {{ form_widget(form.text) }}
+            <div class="input-group-addon btn-danger remove-answer" style="width: 2.6rem"><i class="fa fa-remove"></i></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block category_choice_widget_options %}
+    {% for group_label, choice in choices %}
+            {% set indent = '' %}
+            {% for i in 0..choice.data.level %}
+                {% set indent = indent ~ '&nbsp;&nbsp;' %}
+            {% endfor %}
+
+            <option value="{{ choice.value }}"{% if choice.attr %} {% set attr = choice.attr %}{{ block('attributes') }}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ indent|raw }}{{ choice.label|escape('html') }}</option>
+    {% endfor %}
+{% endblock category_choice_widget_options %}
+
+{% block unused %}
+    <div id="quiz_questions___name__">
+        <div><label for="quiz_questions___name___text">Question</label><input type="text"
+                                                                              id="quiz_questions___name___text"
+                                                                              name="quiz[questions][__name__][text]"/>
+        </div>
+        <div><label>Answers</label>
+            <div id="quiz_questions___name___answers"
+                 data-prototype="&lt;div&gt;&lt;label&gt;__answer__label__&lt;/label&gt;&lt;div id=&quot;quiz_questions___name___answers___answer__&quot;&gt;&lt;div&gt;&lt;label for=&quot;quiz_questions___name___answers___answer___text&quot;&gt;Text&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;quiz_questions___name___answers___answer___text&quot; name=&quot;quiz[questions][__name__][answers][__answer__][text]&quot; /&gt;&lt;/div&gt;&lt;div&gt;&lt;label for=&quot;quiz_questions___name___answers___answer___correct&quot;&gt;Is correct&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;quiz_questions___name___answers___answer___correct&quot; name=&quot;quiz[questions][__name__][answers][__answer__][correct]&quot; value=&quot;1&quot; /&gt;&lt;/div&gt; &lt;/div&gt;&lt;/div&gt;"></div>
+        </div>
+    </div>
+{% endblock %}

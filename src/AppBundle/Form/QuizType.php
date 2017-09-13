@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Form\Subscriber\EnsureSingleAnswerSubscriber;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -38,6 +39,10 @@ class QuizType extends AbstractType
             ])
             ->add('categories', EntityType::class, [
                 'label' => 'Categories',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.left', 'ASC');
+                },
                 'class' => 'AppBundle\Entity\Category',
                 'multiple' => true,
                 'choice_label' => 'text',

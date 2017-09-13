@@ -18,6 +18,7 @@ class AnswerType extends AbstractType
     {
         $builder
             ->add('text', TextType::class, [
+                'label' => 'Answer',
                 'required' => true,
                 'constraints' => [new NotBlank()],
             ])
