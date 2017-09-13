@@ -11,4 +11,13 @@
             </p>
         </div>
     </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                {% for quiz in quizzes %}
+                    {% include ':partials:_quiz_profile.html.twig' with {quiz: quiz, statistics: statistics[quiz.id]} %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

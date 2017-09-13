@@ -68,10 +68,9 @@ class AppController extends Controller
         $repo = $this->get('doctrine.orm.entity_manager')->getRepository(Quiz::class);
         $quizzes = $repo->getTakenQuizzesByUser($this->getUser());
         $statistics = [];
-        $manager = $this->get('app.manager.quiz');
 
         foreach ($quizzes as $quiz) {
-            $statistics[$quiz->getId()] = $manager->getQuizStatistics($quiz);
+            $statistics[$quiz->getId()] = $this->get('app.manager.quiz')->getQuizStatistics($quiz, $this->getUser());
         }
 
         return $this->render('app/taken_quizzes.html.twig', [
@@ -86,9 +85,16 @@ class AppController extends Controller
     public function createdQuizzesAction(Request $request)
     {
         $repo = $this->get('doctrine.orm.entity_manager')->getRepository(Quiz::class);
+        $quizzes = $repo->findBy(['createdBy' => $this->getUser()]);
+        $statistics = [];
+
+        foreach ($quizzes as $quiz) {
+            $statistics[$quiz->getId()] = $this->get('app.manager.quiz')->getQuizStatistics($quiz);
+        }
 
         return $this->render('app/created_quizzes.html.twig', [
-
+            'quizzes' => $quizzes,
+            'statistics' => $statistics,
         ]);
     }
 }

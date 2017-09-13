@@ -5,6 +5,7 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\Quiz;
 use AppBundle\Entity\TestQuiz;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\UserBundle\Model\UserInterface;
 
 class QuizManager
 {
@@ -35,13 +36,20 @@ class QuizManager
 
     /**
      * @param Quiz $quiz
+     * @param UserInterface|null $user
      *
      * @return array
      */
-    public function getQuizStatistics(Quiz $quiz): array
+    public function getQuizStatistics(Quiz $quiz, UserInterface $user = null): array
     {
         $statistics = [];
-        $tests = $this->testQuizRepository->findBy(['quiz' => $quiz]);
+        $findBy = ['quiz' => $quiz];
+
+        if (null !== $user) {
+            $findBy['user'] = $user;
+        }
+
+        $tests = $this->testQuizRepository->findBy($findBy);
         $statistics['count'] = count($tests);
 
         if (0 === $statistics['count']) {

@@ -55,6 +55,7 @@ class QuizController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $quiz->setCreatedBy($this->getUser());
             $em->persist($quiz);
             $em->flush();
             $this->addFlash('success', "Quiz {$operation}d successfully.");

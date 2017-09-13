@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card-bock">
+        <h4 class="card-title">{{ quiz.title }}</h4>
+        <p class="card-text">
+            <strong>Quiz taken</strong><span class="text-primary">{{ statistics.count }}</span>
+        </p>
+        <p class="card-text">
+            <strong>Categories:</strong>
+            {% for category in quiz.categories %}
+                {{ category.text }}
+            {% endfor %}
+        </p>
+        {% if statistics.count == 0 %}
+            <a href="{{ path('quiz_update', {id: quiz.id}) }}" class="btn btn-primary">Edit</a>
+        {% else %}
+            <a href="#" class="btn btn-secondary disabled">Edit</a>
+        {% endif %}
+    </div>
+</div>

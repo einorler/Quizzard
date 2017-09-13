@@ -43,6 +43,14 @@ class Quiz
      */
     private $questions;
 
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="created_by_user_id", referencedColumnName="id")
+     */
+    private $createdBy;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -121,5 +129,21 @@ class Quiz
     public function removeQuestion(Question $question)
     {
         $this->questions->remove($question);
+    }
+
+    /**
+     * @return User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param User $createdBy
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
     }
 }
