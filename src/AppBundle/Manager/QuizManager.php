@@ -61,6 +61,7 @@ class QuizManager
         }
 
         $statistics['count'] = count($tests);
+        $statistics['min'] = $tests[0]->getResult();
         $sum = 0;
 
         foreach ($tests as $test) {

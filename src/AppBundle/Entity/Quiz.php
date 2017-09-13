@@ -128,7 +128,10 @@ class Quiz
      */
     public function removeQuestion(Question $question)
     {
-        $this->questions->remove($question);
+        if ($this->questions->contains($question)) {
+            $question->setQuiz(null);
+            $this->questions->removeElement($question);
+        }
     }
 
     /**

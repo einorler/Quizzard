@@ -1,7 +1,14 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <h1>{{ quiz.quiz.title }}</h1>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">{{ quiz.quiz.title }}</h1>
+            <p class="lead text-muted">
+                Please select a single answer per question
+            </p>
+        </div>
+    </section>
 
     {% if form.vars.errors is not empty %}
         <div class="alert alert-danger">
