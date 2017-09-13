@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>{{ quiz.quiz.title }}</h1>
+
+    {% if form.vars.errors is not empty %}
+        <div class="alert alert-danger">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    {{ form_start(form) }}
+
+        {% set questions = quiz.quiz.questions %}
+        {% for question_key, question in questions %}
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-8">
+                    <strong>{{ question.text }}</strong>
+
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-11">
+                        {% for answer_key, answer in question.answers %}
+                            {{ form_widget(form.questions[question_key].answers[answer_key]) }} {{ answer.text }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+
+    {{ form_end(form) }}
+
+{% endblock %}

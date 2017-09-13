@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css">
+{% endblock %}
+
+{% block body %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Categories</h1>
+            <p class="lead text-muted">
+                Here you can see the list of all the configured categories. You can choose quizzes from
+                them or, if you like, you can add new ones as well.
+            </p>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="categories" class="treeview">
+
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                        <ul class="list-group">
+                            {% for category in categories %}
+                                <a href="{{ path('category_show', {id: category.id}) }}" style="color: black">
+                                    <li class="list-group-item node-treeview" data-nodeid="1" style="color:undefined;background-color:undefined;">
+                                        {% for i in 0..category.level %}
+                                            <span class="indent"></span>
+                                        {% endfor %}
+
+                                        <span class="icon node-icon"></span>{{ category.text }}
+                                    </li>
+                                </a>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 text-center">
+                        <img class="rounded-circle" src="https://0.s3.envato.com/files/113754737/pv_590.jpg" alt="Generic placeholder image" width="140" height="140">
+                        <h2 class="jumbotron-heading">Creation</h2>
+                        <p class="lead text-muted">Here you can add another category if you like.</p>
+                        <p><a class="btn btn-success" href="{{ path('category_create') }}" role="button">Create »</a></p>
+                    </div>
+                    <div class="col-md-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+{% endblock %}

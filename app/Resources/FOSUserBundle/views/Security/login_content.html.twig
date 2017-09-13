@@ -1,0 +1,42 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
+    {% if csrf_token %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    {% endif %}
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="sr-only" for="email">{{ 'security.login.username'|trans }}</label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                    <input type="text" id="username" name="_username" class="form-control" placeholder="{{ 'security.login.username'|trans }}" value="{{ last_username }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="sr-only" for="email">{{ 'security.login.password'|trans }}</label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                    <input type="password" id="password" name="_password" class="form-control" placeholder="{{ 'security.login.password'|trans }}" value="{{ last_username }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <button class="btn btn-success" type="submit" id="_submit" name="_submit"><i class="fa fa-sign-in"></i> {{ 'security.login.submit'|trans }} </button>
+</form>
+<div class="spacer"></div>
+
+{% if error %}
+    <div class="alert alert-danger" role="alert">
+        <strong>Error!</strong> {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}

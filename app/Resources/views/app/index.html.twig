@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <img src="{{ asset('img/quizzard_logo.png') }}" alt="logo">
+            <h1 class="jumbotron-heading">Welcome to Quizzard</h1>
+            <p class="lead text-muted">
+                Quizzard is the platform that enables you to take and create quizzes. So go on and check it out.
+                We have quizzes in all sorts of different categories.
+            </p>
+            <p>
+                <a href="{{ path('category_index') }}" class="btn btn-primary">View categories</a>
+                <a href="{{ path('quiz_create') }}" class="btn btn-secondary">Create a quiz</a>
+            </p>
+        </div>
+    </section>
+    <div class="spacer"></div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endblock %}

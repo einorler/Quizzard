@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ category.text }} quizzes{% endblock %}
+
+{% block body %}
+    <h1>List of quizzes in {{ category.text }} category</h1>
+    <div class="col-sm-6">
+        <div class="list-group">
+            {% for quiz in quizzes %}
+                <a href="{{ path('quiz', {id: quiz.id}) }}" class="list-group-item">{{ quiz.title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+{% endblock %}

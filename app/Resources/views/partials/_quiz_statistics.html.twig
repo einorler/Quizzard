@@ -1,0 +1,12 @@
+
+<div class="card">
+
+    <div class="card-bock">
+        <h4 class="card-title">{{ quiz.title }}</h4>
+        <p class="card-text">Times taken: <span class="text-primary">{{ statistics[quiz.id]['count'] }}</span></p>
+        <p class="card-text">Min score: <span class="text-warning">{{ statistics[quiz.id]['min'] }}</span></p>
+        <p class="card-text">Max score: <span class="text-success">{{ statistics[quiz.id]['max'] }}</span></p>
+        <p class="card-text">Average: <span class="text-danger">{{ statistics[quiz.id]['average'] }}</span></p>
+        <a href="{{ path('quiz', {id: quiz.id}) }}" class="btn btn-primary">Take again!</a>
+    </div>
+</div>

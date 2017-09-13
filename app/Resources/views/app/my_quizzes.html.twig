@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Quizzes{% endblock %}
+
+{% block body %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">My Quizzes</h1>
+            <p class="lead text-muted">
+                Here you can view all the quizzes you created and the quizzes that you have taken.
+            </p>
+            <p>
+                <a href="{{ path('my_taken_quizzes') }}" class="btn btn-primary">Taken quizzes</a>
+                <a href="{{ path('my_created_quizzes') }}" class="btn btn-secondary">Created quizzes</a>
+            </p>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,28 @@
+services:
+    app.form_subscriber.ensure_single_answer:
+        class: AppBundle\Form\Subscriber\EnsureSingleAnswerSubscriber
+
+    app.form_subscriber.category:
+        class: AppBundle\Form\Subscriber\CategorySubscriber
+        arguments:
+          - '@doctrine.orm.entity_manager'
+
+    app.form.quiz:
+        class: AppBundle\Form\QuizType
+        arguments:
+          - '@app.form_subscriber.ensure_single_answer'
+        tags:
+          - { name: form.type }
+
+    app.form.category:
+        class: AppBundle\Form\CategoryType
+        arguments:
+          - '@app.form_subscriber.category'
+        tags:
+          - { name: form.type }
+
+    app.manager.quiz:
+        class: AppBundle\Manager\QuizManager
+        arguments:
+          - '@doctrine.orm.entity_manager'
+

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Quizzes{% endblock %}
+
+{% block body %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Taken Quizzes</h1>
+            <p class="lead text-muted">
+                Here you can see all the quizzes that you have taken.
+            </p>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                {% for quiz in quizzes %}
+                    {% include ':partials:_quiz_statistics.html.twig' with {quiz: quiz, statistics: statistics} %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
