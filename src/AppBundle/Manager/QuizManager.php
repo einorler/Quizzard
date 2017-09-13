@@ -42,7 +42,12 @@ class QuizManager
      */
     public function getQuizStatistics(Quiz $quiz, UserInterface $user = null): array
     {
-        $statistics = [];
+        $statistics = [
+            'count' => 0,
+            'max' => 0,
+            'min' => 0,
+            'average' => 0,
+        ];
         $findBy = ['quiz' => $quiz];
 
         if (null !== $user) {
@@ -50,14 +55,12 @@ class QuizManager
         }
 
         $tests = $this->testQuizRepository->findBy($findBy);
-        $statistics['count'] = count($tests);
 
-        if (0 === $statistics['count']) {
+        if (0 === count($tests)) {
             return $statistics;
         }
 
-        $statistics['max'] = 0;
-        $statistics['min'] = $tests[0]->getResult();
+        $statistics['count'] = count($tests);
         $sum = 0;
 
         foreach ($tests as $test) {

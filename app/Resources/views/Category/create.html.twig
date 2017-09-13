@@ -3,15 +3,24 @@
 {% block title %}Create Category{% endblock %}
 
 {% block body %}
-<h1>{{ action }} a category!</h1>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Create a Category</h1>
+            <p class="lead text-muted">
+                Didn't find a category you were looking for? Create it!
+            </p>
+        </div>
+    </section>
 
-{% if form.vars.errors is not empty %}
-    <div class="alert alert-danger">
-        {{ form_errors(form) }}
-    </div>
-{% endif %}
+    {% if form.vars.errors is not empty %}
+        <div class="alert alert-danger">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
 
-<div>
-    {{ form(form) }}
-</div>
+    <section>
+        <div class="container">
+            {{ form(form) }}
+        </div>
+    </section>
 {% endblock %}

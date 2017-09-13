@@ -2,14 +2,17 @@
     <div class="card-bock">
         <h4 class="card-title">{{ quiz.title }}</h4>
         <p class="card-text">
-            <strong>Quiz taken</strong><span class="text-primary">{{ statistics.count }}</span>
-        </p>
-        <p class="card-text">
             <strong>Categories:</strong>
+            {% set i = 1 %}
             {% for category in quiz.categories %}
-                {{ category.text }}
+                {{ category.text }}{% if i < quiz.categories|length %},{% endif %}
+                {% set i = i + 1 %}
             {% endfor %}
         </p>
+        <p class="card-text"><strong>Quiz taken</strong> <span class="text-primary">{{ statistics.count }}</span></p>
+        <p class="card-text"><strong>Min score:</strong> <span class="text-warning">{{ statistics.min }}</span></p>
+        <p class="card-text"><strong>Max score:</strong> <span class="text-success">{{ statistics.max }}</span></p>
+        <p class="card-text"><strong>Average:</strong> <span class="text-danger">{{ statistics.average }}</span></p>
         {% if statistics.count == 0 %}
             <a href="{{ path('quiz_update', {id: quiz.id}) }}" class="btn btn-primary">Edit</a>
         {% else %}
