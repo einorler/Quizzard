@@ -26,6 +26,14 @@ class EnsureSingleAnswerSubscriber implements EventSubscriberInterface
         /** @var Quiz $quiz */
         $quiz = $event->getData();
 
+        if (0 === count($quiz->getQuestions())) {
+            $event->getForm()->addError(
+                new FormError('There must be at least one question in your quiz')
+            );
+
+            return;
+        }
+
         foreach ($quiz->getQuestions() as $question) {
             $correct = 0;
 
