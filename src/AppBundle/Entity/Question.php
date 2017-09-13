@@ -64,7 +64,7 @@ class Question
     /**
      * @param string $text
      */
-    public function setText(string $text)
+    public function setText(?string $text)
     {
         $this->text = $text;
     }

@@ -68,10 +68,21 @@
 {% endblock %}
 
 {% block _quiz_question_block_entry_widget %}
+    {% set errors = form.text.vars.errors %}
+    {% if errors|length > 0  %}
+        {% set error_text = '' %}
+
+        {% for error in errors %}
+            {% set error_text = error_text ~ error.message %}
+        {% endfor %}
+    {% endif %}
     <div class="row" style="padding-bottom: 1rem; border-bottom: .05rem solid #e5e5e5; margin-bottom: 1rem">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group {% if errors|length > 0  %} has-danger{% endif %}">
+                {% if errors|length > 0  %}
+                    <label class="form-control-label" for="categories">{{ error_text }}</label>
+                {% endif %}
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-question-circle"></i></div>
                     {{ form_widget(form.text) }}
@@ -106,6 +117,7 @@
 {% endblock %}
 
 {% block _quiz_question_block_entry_answers_entry_widget %}
+    {% set errors = form.vars.errors.form.getErrors(true) %}
     {% if errors|length > 0  %}
         {% set error_text = '' %}
 
