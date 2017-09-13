@@ -59,9 +59,19 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>/*
-        var $collectionHolder = $('ul.questions');
-        var answerLabel = /<label>__answer__label__<\/label>/;
+    <script>
+        var $collectionHolder = $('div.questions');
+
+        $collectionHolder.on('click', '.remove-question', function () {
+            $(this).parent().parent().parent().parent().remove();
+        });
+
+        $collectionHolder.on('click', '.remove-answer', function () {
+            $(this).parent().parent().remove();
+        });
+
+
+        /*
 
         // setup an "add a tag" link
         var $addQuestionLink = $('<a href="#" class="add_question_link">Add a question</a>');

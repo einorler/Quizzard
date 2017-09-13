@@ -116,6 +116,12 @@
     <input type="text" {{ block('widget_attributes') }} class="form-control" placeholder="{{ label }}" {% if value is not empty %}value="{{ value }}" {% endif %}>
 {% endblock %}
 
+{% block _quiz_question_block_entry_answers_widget %}
+    {% for form in form.children %}
+        {{ block('_quiz_question_block_entry_answers_entry_widget') }}
+    {% endfor %}
+{% endblock %}
+
 {% block _quiz_question_block_entry_answers_entry_widget %}
     {% set errors = form.vars.errors.form.getErrors(true) %}
     {% if errors|length > 0  %}
