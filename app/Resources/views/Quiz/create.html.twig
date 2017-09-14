@@ -77,7 +77,7 @@
 
             if (index == undefined) {
                 index = $answerHolder.children().length;
-                $answerHolder.data('index', index);
+                $answerHolder.data('index', index + 1);
             }
 
             var newForm = prototype.replace(/__answer__/g, index);
@@ -93,7 +93,7 @@
         });
 
         $(document).ready(function() {
-            $collectionHolder.data('index', $collectionHolder.children().length - 1);
+            $collectionHolder.data('index', $collectionHolder.children().length);
 
             $addQuestion.on('click', function(e) {
                 e.preventDefault();
