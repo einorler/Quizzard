@@ -32,8 +32,7 @@
         </div>
 
         <div class="questions"
-            data-prototype-question="{{ form_widget(form.questions.vars.prototype)|e('html_attr') }}"
-        >
+            data-prototype-question="{{ form_widget(form.questions.vars.prototype)|e('html_attr') }}">
             {% for question in form.questions %}
                 {{ form_widget(question) }}
             {% endfor %}
@@ -61,6 +60,29 @@
 {% block javascripts %}
     <script>
         var $collectionHolder = $('div.questions');
+        var $addQuestion = $('#add-question');
+
+        function addQuestionForm($collectionHolder) {
+            var prototype = $collectionHolder.data('prototype-question');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            $collectionHolder.append($(newForm));
+        }
+
+        function addAnswerForm($button) {
+            var prototype = $button.data('prototype-answer');
+            var $answerHolder = $button.parent().parent().find('.answers:first');
+            var index = $answerHolder.data('index');
+
+            if (index == undefined) {
+                index = $answerHolder.children().length;
+                $answerHolder.data('index', index);
+            }
+
+            var newForm = prototype.replace(/__answer__/g, index);
+            $answerHolder.append($(newForm));
+        }
 
         $collectionHolder.on('click', '.remove-question', function () {
             $(this).parent().parent().parent().parent().remove();
@@ -70,82 +92,20 @@
             $(this).parent().parent().remove();
         });
 
-
-        /*
-
-        // setup an "add a tag" link
-        var $addQuestionLink = $('<a href="#" class="add_question_link">Add a question</a>');
-        var $newLinkLi = $('<li></li>').append($addQuestionLink);
-        var newAnswerLinkLi = '<a href="#" class="add_answer_link">Add an answer</a>';
-        var remove = '<span class="btn btn-danger btn-sm remove"><i class="glyphicon glyphicon-remove-circle"></span>';
-
-        function removeBlock(el) {
-            $(el).parent().parent().remove();
-        }
-
-        function addQuestionForm($collectionHolder, $newLinkLi) {
-            var prototype = $collectionHolder.data('prototype-question');
-
-            var index = $collectionHolder.data('index');
-
-            var newForm = prototype.replace(/__name__/g, index);
-
-            $collectionHolder.data('index', index + 1);
-
-            var $newFormLi = $('<li></li>').append(newForm);
-            var $removeBtn = $(remove);
-            $newFormLi.find('#quiz_questions_' + index + '_text').parent().append($removeBtn);
-            $newLinkLi.before($newFormLi);
-
-            var $answersDiv = $newFormLi.find('#quiz_questions_' + index + '_answers');
-            var answersPrototype = $answersDiv.data('prototype');
-            var $answersForm = $(answersPrototype.replace(answerLabel, '').replace(/__answer__/g, 0));
-            $answersDiv.append($answersForm);
-            $answersDiv.append($(newAnswerLinkLi));
-            $answersDiv.addClass('answers-container');
-            $answersDiv.attr('data-index', 0);
-        }
-
-        function addAnswerForm($collectionHolder) {
-            var $newLinkLi = $collectionHolder.find('.add_answer_link');
-            var prototype = $collectionHolder.data('prototype');
-
-            var index = $collectionHolder.data('index') + 1;
-
-            var newForm = prototype.replace(answerLabel, '');
-            newForm = newForm.replace(/__answer__/g, index);
-
-            $collectionHolder.data('index', index);
-
-            $newLinkLi.before($(newForm));
-        }
-        
-        $collectionHolder.on('click', '.remove', function () {
-            removeBlock(this);
-        });
-
-        $collectionHolder.on('click', '.add_answer_link', function(e) {
-            e.preventDefault();
-
-            addAnswerForm($(this).closest('.answers-container'));
-        });
-
         $(document).ready(function() {
-            $.each($collectionHolder.find('li'), function (i, element) {
-                $(element).find('div').first()
-                    .append($(newAnswerLinkLi))
-                    .find('div').first().append($(remove)).siblings().first().find('div').first()
-                        .addClass('answers-container');
-            });
-            $collectionHolder.append($newLinkLi);
             $collectionHolder.data('index', $collectionHolder.children().length - 1);
 
-            $addQuestionLink.on('click', function(e) {
+            $addQuestion.on('click', function(e) {
                 e.preventDefault();
 
-                addQuestionForm($collectionHolder, $newLinkLi);
+                addQuestionForm($collectionHolder);
+            });
+
+            $collectionHolder.on('click', '.add-answer', function (e) {
+                e.preventDefault();
+
+                addAnswerForm($(this));
             });
         });
-*/
     </script>
 {% endblock %}

@@ -86,15 +86,16 @@
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-question-circle"></i></div>
                     {{ form_widget(form.text) }}
-                    <div class="input-group-addon btn-danger remove-question" style="width: 2.6rem"><i class="fa fa-remove"></i></div>
+                    <div class="input-group-addon btn-danger remove-question" style="width: 2.6rem;"><i class="fa fa-remove"></i></div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="column col-md-3">
                         {{ form_label(form.answers) }}
+                        <button class="input-group-addon btn-success add-answer" data-prototype-answer="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}" style=" border: 1px solid rgba(0, 0, 0, .15)!important;border-radius: .25rem!important;"><i class="fa fa-plus"></i></button>
                     </div>
-                    <div class="column col-md-9">
+                    <div class="column col-md-9 answers">
                         {{ form_widget(form.answers) }}
                     </div>
                 </div>
@@ -155,16 +156,3 @@
             <option value="{{ choice.value }}"{% if choice.attr %} {% set attr = choice.attr %}{{ block('attributes') }}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ indent|raw }}{{ choice.label|escape('html') }}</option>
     {% endfor %}
 {% endblock category_choice_widget_options %}
-
-{% block unused %}
-    <div id="quiz_questions___name__">
-        <div><label for="quiz_questions___name___text">Question</label><input type="text"
-                                                                              id="quiz_questions___name___text"
-                                                                              name="quiz[questions][__name__][text]"/>
-        </div>
-        <div><label>Answers</label>
-            <div id="quiz_questions___name___answers"
-                 data-prototype="&lt;div&gt;&lt;label&gt;__answer__label__&lt;/label&gt;&lt;div id=&quot;quiz_questions___name___answers___answer__&quot;&gt;&lt;div&gt;&lt;label for=&quot;quiz_questions___name___answers___answer___text&quot;&gt;Text&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;quiz_questions___name___answers___answer___text&quot; name=&quot;quiz[questions][__name__][answers][__answer__][text]&quot; /&gt;&lt;/div&gt;&lt;div&gt;&lt;label for=&quot;quiz_questions___name___answers___answer___correct&quot;&gt;Is correct&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;quiz_questions___name___answers___answer___correct&quot; name=&quot;quiz[questions][__name__][answers][__answer__][correct]&quot; value=&quot;1&quot; /&gt;&lt;/div&gt; &lt;/div&gt;&lt;/div&gt;"></div>
-        </div>
-    </div>
-{% endblock %}
